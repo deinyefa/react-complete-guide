@@ -1,32 +1,82 @@
 import React, { Component } from 'react';
 import './App.css';
 
-import UserOutput from './UserOutput/UserOutput';
-
+import Person from './Person/Person';
 
 class App extends Component {
   state = {
-    username: 'doglover'
+    persons: [
+      { id: 'fv', name: 'Fiyin', age: 22 },
+      { id: 'gbz', name: 'Tobi', age: 29 },
+      { id: 'zgfb', name: 'Toyin', age: 27 },
+      { id: 'bgdzb', name: 'Tolu', age: 26 }
+    ],
+    showPersons: false
   }
 
-  updateUsernameHandler = event => {
-    this.setState({ username: event.target.value })
+  deletePersonHandler = (personIndex) => {
+    const persons = [...this.state.persons];
+    persons.splice(personIndex, 1);
+    this.setState({ persons: persons });
+  }
+
+  changeNameHandler = (event, id) => {
+    const personIndex = this.state.persons.findIndex(p => {
+      return p.id === id;
+    });
+
+    const person = {...this.state.persons[personIndex]}
+
+    person.name = event.target.value;
+
+    const persons = [...this.state.persons];
+    persons[personIndex] = person;
+
+    this.setState({
+      persons: persons
+    })
+  }
+
+  togglePersonsHandler = () => {
+    const doesShow = this.state.showPersons;
+    this.setState({ showPersons: !doesShow })
   }
 
   render() {
+    const style = {
+      backgroundColor: '#21638c',
+      font: 'inherit',
+      border: '1px solid #21638c',
+      padding: '8px 20px',
+      cursor: 'pointer',
+      borderRadius: '4px',
+      color: 'white',
+      boxShadow: '0 2px 3px #ccc'
+    }
+
+    let persons = null;
+
+    if (this.state.showPersons) {
+      persons = (
+        <div>
+          {this.state.persons.map((person, index) => (
+            <Person
+              key={person.id}
+              name={person.name}
+              age={person.age}
+              click={this.deletePersonHandler.bind(this, index)}
+              changed={(event) => this.changeNameHandler(event, person.id)} />
+          ))}
+        </div>
+      )
+    }
+
     return (
       <div className="App">
         <h1>Hi, I am a React App!</h1>
         <p>What's up?</p>
-        <UserOutput 
-          username={this.state.username}
-          updateUsername={this.updateUsernameHandler.bind(this)} />
-        <UserOutput 
-          username={this.state.username}
-          updateUsername={this.updateUsernameHandler.bind(this)} />
-        <UserOutput 
-          username={this.state.username} 
-          updateUsername={this.updateUsernameHandler.bind(this)} />
+        <button onClick={this.togglePersonsHandler} style={style}>Toggle List</button>
+        {persons}
       </div>
     );
   }
