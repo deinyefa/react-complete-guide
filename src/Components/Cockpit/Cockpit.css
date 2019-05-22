@@ -23,5 +23,9 @@
 }
 
 .red {
- background-color: #8e0000;
+ color: #8e0000;
+}
+
+.bold {
+  font-weight: bold;
 }

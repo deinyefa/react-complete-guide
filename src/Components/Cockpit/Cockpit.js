@@ -1,6 +1,7 @@
-import React, { Fragment } from 'react';
+import React from 'react';
 
 import Classes from './Cockpit.css';
+import withClass from '../../hoc/WithClass';
 
 const Cockpit = props => {
 
@@ -27,4 +28,4 @@ const Cockpit = props => {
   )
 }
 
-export default Cockpit;
+export default withClass(Cockpit, Classes.Cockpit);

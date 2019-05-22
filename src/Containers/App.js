@@ -1,9 +1,10 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 import Classes from './App.css';
 // import Person from '../Components/Persons/Person/Person';
 import Persons from '../Components/Persons/Persons';
 import Cockpit from '../Components/Cockpit/Cockpit';
+import withClass from '../hoc/WithClass';
 
 class App extends Component {
   state = {
@@ -56,15 +57,15 @@ class App extends Component {
     }
 
     return (
-      <div className={Classes.App}>
+      <Fragment>
         <Cockpit
           persons={this.state.persons}
           showPersons={this.state.showPersons}
           togglePersonsHandler={this.togglePersonsHandler} />
         {persons}
-      </div>
+      </Fragment>
     );
   }
 }
 
-export default App;
+export default withClass(App, Classes.App);
