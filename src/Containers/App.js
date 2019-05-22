@@ -37,7 +37,14 @@ class App extends Component {
 
     this.setState({
       persons: persons
-    })
+    });
+
+    // Best practice for state updates that depend on the old state (counters, etc)
+    // this.setState((prevState, props) => {
+    //   return {
+    //     persons: persons
+    //   }
+    // })
   }
 
   togglePersonsHandler = () => {

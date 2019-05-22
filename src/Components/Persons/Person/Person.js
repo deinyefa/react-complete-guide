@@ -1,4 +1,5 @@
 import React, { Fragment } from 'react';
+import PropTypes from 'prop-types';
 
 import PersonClass from './Person.css';
 import withClass from '../../../hoc/WithClass';
@@ -11,6 +12,13 @@ const Person = (props) => {
       <input type="text" onChange={props.changed} defaultValue={props.name} />
     </Fragment>
   );
+}
+
+Person.propTypes = {
+  click: PropTypes.func,
+  name: PropTypes.string.isRequired,
+  age: PropTypes.number.isRequired,
+  changed: PropTypes.func,
 }
 
 export default withClass(Person, PersonClass.Person);
