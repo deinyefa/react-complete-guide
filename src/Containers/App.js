@@ -5,6 +5,7 @@ import Classes from './App.css';
 import Persons from '../Components/Persons/Persons';
 import Cockpit from '../Components/Cockpit/Cockpit';
 import withClass from '../hoc/WithClass';
+import AuthContext from '../context/auth-context';
 
 class App extends Component {
   state = {
@@ -14,7 +15,8 @@ class App extends Component {
       { id: 'zgfb', name: 'Toyin', age: 27 },
       { id: 'bgdzb', name: 'Tolu', age: 26 }
     ],
-    showPersons: false
+    showPersons: false,
+    authenticated: false,
   }
 
   deletePersonHandler = (personIndex) => {
@@ -47,6 +49,12 @@ class App extends Component {
     // })
   }
 
+  loginHangler = () => {
+    this.setState((prevState, props) => {
+      return { authenticated: !prevState.authenticated }
+    })
+  }
+
   togglePersonsHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({ showPersons: !doesShow })
@@ -60,16 +68,20 @@ class App extends Component {
       persons = <Persons
         persons={this.state.persons}
         clicked={this.deletePersonHandler}
-        changed={this.changeNameHandler} />;
+        changed={this.changeNameHandler}
+        isAuthenticated={this.state.authenticated} />;
     }
 
     return (
       <Fragment>
-        <Cockpit
-          persons={this.state.persons}
-          showPersons={this.state.showPersons}
-          togglePersonsHandler={this.togglePersonsHandler} />
-        {persons}
+        <AuthContext.Provider value={{ authenticated: this.state.authenticated, login: this.loginHangler }}>
+          <Cockpit
+            persons={this.state.persons}
+            showPersons={this.state.showPersons}
+            togglePersonsHandler={this.togglePersonsHandler}
+            login={this.loginHangler} />
+          {persons}
+        </AuthContext.Provider>
       </Fragment>
     );
   }
